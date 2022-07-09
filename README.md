@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+### 1. init project -> upload github
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- `git init`
+- `git add .`
+- `git commit -m "your commit"`
+- `git remote add origin [your-link-remote]`
+- `git branch -M main`
+- `git push -u origin main`
 
-## Available Scripts
+### 2. install & config library customize-cra
 
-In the project directory, you can run:
+- docs: https://github.com/arackaf/customize-cra
+- read before docs : https://github.com/timarney/react-app-rewired/
+- insert terminal: `npm i -D customize-cra react-app-rewired `
 
-### `npm start`
+### 3. install & config library babel-plugin-module-resolver
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- docs: https://github.com/tleunen/babel-plugin-module-resolver
+- insert terminal: `npm install --save-dev babel-plugin-module-resolver`
+- create .babelrc
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  ```babelrc
+      {
+          "plugins": [
+              [
+                  "module-resolver",
+                  {
+                      "alias": {
+                          "~": "./src"
+                      }
+                  }
+              ]
+          ]
+      }
+  ```
 
-### `npm test`
+- create jsconfig.json
+  `json { "compilerOptions": { "baseUrl": ".", "paths": { "~/*": [ "src/*" ] } } } `
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- customize config-overrides.js
 
-### `npm run build`
+  ```JS
+      const { override, useBabelRc } = require("customize-cra");
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+      module.exports = override(
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      useBabelRc()
+      );
+  ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 4. install & config Prettier in VSCode
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- create file .prettierrc in root
 
-### `npm run eject`
+```
+    {
+        "arrowParens": "always",
+        "bracketSameLine": false,
+        "bracketSpacing": true,
+        "embeddedLanguageFormatting": "auto",
+        "htmlWhitespaceSensitivity": "css",
+        "insertPragma": false,
+        "jsxSingleQuote": false,
+        "printWidth": 120,
+        "proseWrap": "preserve",
+        "quoteProps": "as-needed",
+        "requirePragma": false,
+        "semi": true,
+        "singleQuote": true,
+        "tabWidth": 4,
+        "trailingComma": "all",
+        "useTabs": false,
+        "vueIndentScriptAndStyle": false
+    }
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- in .vscode/setting.json
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```json
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 5. config CSS/SCSS
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- create component GlobalStyles
 
-## Learn More
+  ```JSX
+    import './GlobalStyles.scss';
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    const GlobalStyles = ({ children }) => {
+        return children;
+    };
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    export default GlobalStyles;
+  ```
 
-### Code Splitting
+- install library SCSS: `npm i -D scss`
+- reset css: `npm install --save normalize.css`
+- default css:
+  - font-family: google.font
+  - font-size
+  - line-height
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 6. config router/ layout
 
-### Analyzing the Bundle Size
+- Overview analysis of Layout
+- install react-router-dom: `npm i react-router-dom`
+- move config routers outside
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+  ```js
+  import Home from '~/pages/Home';
+  import Following from '~/pages/Following';
 
-### Making a Progressive Web App
+  //public routers
+  const publicRoutes = [
+    {
+      path: '/',
+      component: Home,
+    },
+    {
+      path: '/following',
+      component: Following,
+    },
+  ];
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+  const privateRoutes = [];
 
-### Advanced Configuration
+  export { publicRoutes, privateRoutes };
+  ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- conduct mechanism load layout
