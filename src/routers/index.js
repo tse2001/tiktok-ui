@@ -1,5 +1,5 @@
-import Home from '~/pages/Home';
-import Following from '~/pages/Following';
+import { HeaderOnly } from '~/components/Layout';
+import { Home, Following, Profile, Upload } from '~/pages';
 
 //public routers
 const publicRoutes = [
@@ -10,6 +10,15 @@ const publicRoutes = [
   {
     path: '/following',
     component: Following,
+  },
+  {
+    path: '/profile',
+    component: Profile,
+  },
+  {
+    path: '/upload',
+    component: Upload,
+    layout: HeaderOnly,
   },
 ];
 

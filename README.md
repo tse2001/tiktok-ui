@@ -130,3 +130,8 @@
   ```
 
 - conduct mechanism load layout
+
+### 7. Create frame Layout
+
+- `npm i classnames`
+- use bind function in classnames library
