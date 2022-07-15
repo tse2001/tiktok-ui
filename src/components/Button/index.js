@@ -14,6 +14,7 @@ function Button({
   small = false,
   large = false,
   leftIcon,
+  className,
   onClick,
   ...passsProps
 }) {
@@ -24,6 +25,7 @@ function Button({
   };
 
   const classes = cx('wrapper', {
+    [className]: className,
     primary,
     outline,
     text,
