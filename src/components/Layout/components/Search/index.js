@@ -6,10 +6,12 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
+import * as request from '~/utils/request';
 
 import { Wrapper as PoperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
 import { useDebounce } from '~/hooks';
+import * as searchService from '~/services/searchService';
 const cx = classNames.bind(styles);
 
 function Search() {
@@ -27,18 +29,32 @@ function Search() {
             return;
         }
 
-        setLoading(true);
+        const fetchApi = async () => {
+            setLoading(true);
 
-        //call api
-        fetch(`https://tiktok.fullstack.edu.vn/api/users/search?q=${encodeURIComponent(debounced)}&type=less`)
-            .then((res) => res.json())
-            .then((res) => {
-                setSearchResult(res.data);
-                setLoading(false);
-            })
-            .catch(() => {
-                setLoading(false);
-            });
+            const result = await searchService.search(debounced, 'less');
+            setSearchResult(result.data);
+
+            setLoading(false);
+        };
+
+        fetchApi();
+
+        //call api promise
+        // request
+        //     .get(`users/search`, {
+        //         params: {
+        //             q: debounced,
+        //             type: 'less',
+        //         },
+        //     })
+        //     .then((res) => {
+        //         setSearchResult(res.data);
+        //         setLoading(false);
+        //     })
+        //     .catch(() => {
+        //         setLoading(false);
+        //     });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounced]);
 

@@ -153,3 +153,6 @@
 
 -   keyword:
     -   debounce: get last input of user
+-   use library axios:
+    -   `npm install axios`
+    -   docs: `https://github.com/axios/axios`
