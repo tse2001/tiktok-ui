@@ -20,7 +20,7 @@ import images from '~/assets/images';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
 import Search from '../Search';
-import routesConfig from '~/config/routes';
+import config from '~/config';
 
 //can use '-' define class name: post-item
 const cx = classNames.bind(styles);
@@ -91,7 +91,7 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 {/* Logo */}
-                <Link to={routesConfig.home} className={cx('logo')}>
+                <Link to={config.routesConfig.home} className={cx('logo')}>
                     {/* import from assets/images */}
                     <img src={images.logo} alt="logo-tiktok" />
                 </Link>
