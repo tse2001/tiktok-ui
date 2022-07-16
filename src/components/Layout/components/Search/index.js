@@ -6,7 +6,6 @@ import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
-import * as request from '~/utils/request';
 
 import { Wrapper as PoperWrapper } from '~/components/Popper';
 import AccountItem from '~/components/AccountItem';
@@ -69,8 +68,16 @@ function Search() {
         setShowResult(false);
     };
 
+    const handleChange = (e) => {
+        const _searchValue = e.target.value;
+        if (!_searchValue.startsWith(' ')) {
+            setSearchValue(_searchValue);
+        }
+    };
+
     return (
         <HeadlessTippy
+            appendTo={() => document.body}
             visible={showResult && searchResult.length > 0}
             interactive
             render={(attrs) => (
@@ -96,9 +103,7 @@ function Search() {
                     value={searchValue}
                     placeholder="Search account and video"
                     spellCheck={false}
-                    onChange={(e) => {
-                        setSearchValue(e.target.value);
-                    }}
+                    onChange={handleChange}
                     onFocus={() => setShowResult(true)}
                 />
                 {!!searchValue && !loading && (
@@ -109,7 +114,7 @@ function Search() {
 
                 {loading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
 
-                <button className={cx('search-btn')}>
+                <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
                     <SearchIcon />
                 </button>
             </div>

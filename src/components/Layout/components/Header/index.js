@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKeyboard, faMessage, faQuestionCircle, faUser } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -19,6 +20,7 @@ import images from '~/assets/images';
 import Menu from '~/components/Popper/Menu';
 import Image from '~/components/Image';
 import Search from '../Search';
+import routesConfig from '~/config/routes';
 
 //can use '-' define class name: post-item
 const cx = classNames.bind(styles);
@@ -89,10 +91,10 @@ function Header() {
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
                 {/* Logo */}
-                <div className={cx('logo')}>
+                <Link to={routesConfig.home} className={cx('logo')}>
                     {/* import from assets/images */}
                     <img src={images.logo} alt="logo-tiktok" />
-                </div>
+                </Link>
 
                 {/* Search */}
                 <Search />

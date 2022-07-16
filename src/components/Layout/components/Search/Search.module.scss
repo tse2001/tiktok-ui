@@ -20,6 +20,7 @@
         border: none;
         background-color: transparent;
         caret-color: (--primary);
+        font-family: var(--font-family);
     }
 
     &::after {
