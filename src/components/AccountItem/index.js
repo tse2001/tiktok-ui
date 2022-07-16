@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -21,4 +22,9 @@ function AccountItem({ name, imageLink, username }) {
     );
 }
 
+AccountItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    imageLink: PropTypes.string.isRequired,
+    username: PropTypes.string.isRequired,
+};
 export default AccountItem;

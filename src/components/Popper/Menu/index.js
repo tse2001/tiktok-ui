@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Tippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
@@ -9,9 +10,7 @@ import MenuItem from './MenuItem';
 
 const cx = classNames.bind(styles);
 
-const defaultFunc = () => {};
-
-function Menu({ children, items = [], onChange = defaultFunc }) {
+function Menu({ children, items = [], onChange }) {
     const [history, setHistory] = useState([{ data: items }]);
     const current = history[history.length - 1];
 
@@ -47,7 +46,7 @@ function Menu({ children, items = [], onChange = defaultFunc }) {
                     <PoperWrapper className={cx('menu-proper')}>
                         {history.length > 1 && (
                             <Header
-                                title={'Language'}
+                                title={current.title}
                                 onBack={() => {
                                     setHistory((prev) => prev.slice(0, prev.length - 1));
                                 }}
@@ -66,5 +65,11 @@ function Menu({ children, items = [], onChange = defaultFunc }) {
         </Tippy>
     );
 }
+
+Menu.propTypes = {
+    children: PropTypes.node.isRequired,
+    items: PropTypes.array.isRequired,
+    onChange: PropTypes.array,
+};
 
 export default Menu;
