@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import { useState, forwardRef } from 'react';
 import images from '~/assets/images';
 
@@ -14,8 +13,4 @@ function Image({ src = '', alt = '', fallback: customFallback = images.noImage, 
     return <img ref={ref} src={fallback || src} alt={alt} {...props} onError={handleError} />;
 }
 
-Image.propTypes = {
-    src: PropTypes.string,
-    alt: PropTypes.string,
-};
 export default forwardRef(Image);

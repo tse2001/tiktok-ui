@@ -7,24 +7,22 @@ import styles from './AccountItem.module.scss';
 import Image from '../Image';
 const cx = classNames.bind(styles);
 
-function AccountItem({ name, imageLink, username }) {
+function AccountItem({ data }) {
     return (
-        <Link to={`@${username}`} className={cx('wrapper')}>
-            <Image className={cx('avatar')} src={imageLink} alt="" />
+        <Link to={`@${data.nickname}`} className={cx('wrapper')}>
+            <Image className={cx('avatar')} src={data.avatar} alt="" />
             <div className={cx('info')}>
                 <h4 className={cx('name')}>
-                    <span>{name}</span>
+                    <span>{data.full_name}</span>
                     <FontAwesomeIcon className={cx('check')} icon={faCheckCircle} />
                 </h4>
-                <p className={cx('username')}>{username}</p>
+                <p className={cx('username')}>{data.nickname}</p>
             </div>
         </Link>
     );
 }
 
 AccountItem.propTypes = {
-    name: PropTypes.string.isRequired,
-    imageLink: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    data: PropTypes.object.isRequired,
 };
 export default AccountItem;

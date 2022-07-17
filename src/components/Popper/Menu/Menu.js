@@ -36,29 +36,40 @@ function Menu({ children, items = [], onChange }) {
         });
     };
 
+    //reset to first menu
+    const handleBackMenu = (prev) => {
+        prev.slice(0, prev.length - 1);
+    };
+
+    const handleRender = (attrs) => (
+        <div className={cx('menu-items')} tabIndex="-1" {...attrs}>
+            <PoperWrapper className={cx('menu-proper')}>
+                {history.length > 1 && (
+                    <Header
+                        title={current.title}
+                        onBack={() => {
+                            setHistory(handleBackMenu);
+                        }}
+                    />
+                )}
+
+                {/* call func handle */}
+                <div className={cx('menu-scroll')}>{renderItems()}</div>
+            </PoperWrapper>
+        </div>
+    );
+
+    const hanldeResetMenuOnClickOutsite = () => {
+        setHistory((prev) => prev.slice(0, 1));
+    };
+
     return (
         <Tippy
             interactive //active element
             delay={[0, 600]}
             placement="bottom-end"
-            render={(attrs) => (
-                <div className={cx('menu-items')} tabIndex="-1" {...attrs}>
-                    <PoperWrapper className={cx('menu-proper')}>
-                        {history.length > 1 && (
-                            <Header
-                                title={current.title}
-                                onBack={() => {
-                                    setHistory((prev) => prev.slice(0, prev.length - 1));
-                                }}
-                            />
-                        )}
-
-                        {/* call func handle */}
-                        <div className={cx('menu-scroll')}>{renderItems()}</div>
-                    </PoperWrapper>
-                </div>
-            )}
-            onHide={() => setHistory((prev) => prev.slice(0, 1))}
+            render={handleRender}
+            onHide={hanldeResetMenuOnClickOutsite}
             hideOnClick={false}
         >
             {children}

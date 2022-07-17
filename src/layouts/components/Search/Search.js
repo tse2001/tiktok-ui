@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SearchIcon } from '~/components/Icons';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Search.module.scss';
 
@@ -16,12 +16,14 @@ const cx = classNames.bind(styles);
 function Search() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
-    const [showResult, setShowResult] = useState(true);
+    const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
-    const debounced = useDebounce(searchValue, 500);
+
+    const debounceValue = useDebounce(searchValue, 500);
 
     const searchInputRef = useRef();
 
+    //use useEffect handle input && call api
     useEffect(() => {
         if (!searchValue.trim()) {
             setSearchResult([]);
@@ -31,7 +33,7 @@ function Search() {
         const fetchApi = async () => {
             setLoading(true);
 
-            const result = await searchService.search(debounced, 'less');
+            const result = await searchService.search(debounceValue, 'less');
             setSearchResult(result.data);
 
             setLoading(false);
@@ -43,7 +45,7 @@ function Search() {
         // request
         //     .get(`users/search`, {
         //         params: {
-        //             q: debounced,
+        //             q: debounceValue,
         //             type: 'less',
         //         },
         //     })
@@ -55,7 +57,7 @@ function Search() {
         //         setLoading(false);
         //     });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [debounced]);
+    }, [debounceValue]);
 
     //logic
     const handleCloseSearchValue = () => {
@@ -75,6 +77,15 @@ function Search() {
         }
     };
 
+    //useMemo handle work call map then change input because change state [searchValue]
+    const handleRenderSearchResult = useMemo(() => {
+        const res = searchResult.map((result) => {
+            return <AccountItem key={result.id} data={result} />;
+        });
+
+        return res;
+    }, [searchResult]);
+
     return (
         <HeadlessTippy
             appendTo={() => document.body}
@@ -84,14 +95,8 @@ function Search() {
                 <div className={cx('search-result')} tabIndex="-1" {...attrs}>
                     <PoperWrapper>
                         <h4 className={cx('search-title')}>Accounts</h4>
-                        {searchResult.map((result) => (
-                            <AccountItem
-                                key={result.id}
-                                name={result.full_name}
-                                username={result.nickname}
-                                imageLink={result.avatar}
-                            />
-                        ))}
+                        {/* if list > 5 then optimize code by useMemo do func -> call*/}
+                        {handleRenderSearchResult}
                     </PoperWrapper>
                 </div>
             )}

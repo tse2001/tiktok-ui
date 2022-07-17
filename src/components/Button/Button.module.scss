@@ -10,7 +10,8 @@
     border: 1px solid transparent;
     user-select: none;
     display: flex;
-
+    justify-content: center;
+    align-items: center;
     + .wrapper {
         margin-left: 8px;
     }
@@ -20,7 +21,6 @@
 .primary {
     background-color: var(--primary);
     color: var(--white);
-    justify-content: center;
 
     &:hover {
         background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55;
